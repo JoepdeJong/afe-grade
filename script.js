@@ -46,8 +46,8 @@ const computePenalty2 = () => {
     }
 
     while(officialDaysLate > 0) {
-        // Get index of max value in lateDays ignoring values larger than 5
-        maxIndex = lateDays.indexOf(Math.max(...lateDays.filter(x => x < 5 && x > 0)))
+        // Get index of max value in lateDays ignoring values larger than 7
+        maxIndex = lateDays.indexOf(Math.max(...lateDays.filter(x => x <= 7 && x > 0)))
 
         // If maxIndex exists
         if(maxIndex > 0) {
