@@ -5,6 +5,7 @@ $(document).ready(function(){
 const computePenalty = () => {
     computePenalty1()
     computePenalty2()
+    computeOriginal()
     
 }
 
@@ -33,9 +34,9 @@ const computePenalty1 = () => {
 
     console.log(totalLateDays, penalty)
 
-    $('#total-days-c1').html(totalLateDays)
-    $('#total-penalty-c1').html(penalty)
-    $('#average-penalty-c1').html(Math.round(penalty/6*100)/100)
+    $('#total-days-f1').html(totalLateDays)
+    $('#total-penalty-f1').html(penalty)
+    $('#average-penalty-f1').html(Math.round(penalty/6*100)/100)
 }
 
 const computePenalty2 = () => {
@@ -68,8 +69,36 @@ const computePenalty2 = () => {
         }
     }
 
-    $('#total-days-c2').html(lateDays.reduce((a, b) => a + b, 0))
+    $('#total-days-f2').html(lateDays.reduce((a, b) => a + b, 0))
     // Compute penalties and round on 2 decimals
-    $('#total-penalty-c2').html(Math.round(penalties.reduce((a, b) => a + b, 0)*100)/100    )
-    $('#average-penalty-c2').html(Math.round(penalties.reduce((a, b) => a + b, 0)/6*100)/100)
+    $('#total-penalty-f2').html(Math.round(penalties.reduce((a, b) => a + b, 0)*100)/100    )
+    $('#average-penalty-f2').html(Math.round(penalties.reduce((a, b) => a + b, 0)/6*100)/100)
+}
+
+const computeOriginal = () => {
+    officialDaysLate = 5
+    totalLateDays = 0
+    penalty = 0
+    for(let i = 1; i <= 6; i++) {
+        daysLate = parseInt($('#week' + i).val()) || 0
+
+        if(daysLate > 0 && daysLate < 5) {
+            usedLateDays = daysLate > officialDaysLate ? officialDaysLate : daysLate
+            officialDaysLate = officialDaysLate - usedLateDays
+            daysLate = daysLate - usedLateDays
+        }
+
+        totalLateDays += daysLate
+
+        console.log(daysLate)
+        if(daysLate < 5) {
+            penalty += daysLate
+        } else {
+            penalty += 9
+        }
+    }
+
+    $('#total-days-o').html(totalLateDays)
+    $('#total-penalty-o').html(penalty)
+    $('#average-penalty-o').html(Math.round(penalty/6*100)/100)
 }
